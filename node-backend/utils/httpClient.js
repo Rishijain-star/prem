@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const config = require('../config');
 
 /**
@@ -10,9 +11,13 @@ const config = require('../config');
 function makeRequest(path, options = {}) {
   return new Promise((resolve, reject) => {
     const url = new URL(path, config.GO_BACKEND_URL);
+    const isHttps = url.protocol === 'https:';
+    const defaultPort = isHttps ? 443 : 80;
+    const port = url.port ? parseInt(url.port, 10) : defaultPort;
+    const client = isHttps ? https : http;
     const requestOptions = {
       hostname: url.hostname,
-      port: url.port || 8080,
+      port,
       path: url.pathname + url.search,
       method: options.method || 'GET',
       headers: {
@@ -21,7 +26,7 @@ function makeRequest(path, options = {}) {
       }
     };
 
-    const req = http.request(requestOptions, (res) => {
+    const req = client.request(requestOptions, (res) => {
       let data = '';
       res.on('data', (chunk) => {
         data += chunk;

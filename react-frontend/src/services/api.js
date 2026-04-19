@@ -1,6 +1,14 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+// Non-empty VITE_API_URL: call that host directly (optional override).
+// Empty/unset: same-origin — Vite dev server proxies /api and /health; production Nginx does the same.
+function resolveApiBaseUrl() {
+  const v = import.meta.env.VITE_API_URL
+  if (typeof v === 'string' && v.length > 0) return v
+  return ''
+}
+
+const API_BASE_URL = resolveApiBaseUrl()
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,

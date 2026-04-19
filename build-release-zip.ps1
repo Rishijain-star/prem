@@ -37,7 +37,7 @@ $must = @(
   'java-backend\Dockerfile',
   'node-backend\Dockerfile',
   'react-frontend\Dockerfile',
-  'react-frontend\nginx.conf'
+  'react-frontend\nginx.conf.template'
 )
 Write-Host ""
 Write-Host "Zip checks:"
