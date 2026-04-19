@@ -11,5 +11,5 @@ RUN mkdir -p /app/data
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=5 \
-  CMD curl -sf http://localhost:8080/health || exit 1
+  CMD curl -sf https://prem-3.onrender.com/health || exit 1
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
